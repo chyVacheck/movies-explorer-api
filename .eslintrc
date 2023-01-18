@@ -1,0 +1,10 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "airbnb-base"
+    ],
+    "rules": {
+        "no-underscore-dangle": ["off", { "allow": ["id"] }]
+    }
+}
