@@ -4,6 +4,7 @@ const validator = require('validator');
 const MESSAGE = {
   ERROR: {
     BAD_REQUEST: 'BAD REQUEST',
+    INCORRECT_DATA: 'Incorrect data entered',
     FORBIDDEN: 'You are not allowed to do this operation',
     NOT_FOUND: 'NOT FOUND',
     NOT_AUTHORIZED: 'User is not authorized',

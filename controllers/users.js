@@ -41,7 +41,7 @@ users.createOne = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Incorrect data entered'));
+        next(new BadRequestError(MESSAGE.ERROR.INCORRECT_DATA));
       } else if (err.code === 11000) {
         next(new ConflictError(MESSAGE.ERROR.DUPLICATE));
       } else {
@@ -102,7 +102,7 @@ users.setUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Incorrect data entered'));
+        next(new BadRequestError(MESSAGE.ERROR.INCORRECT_DATA));
       } else if (err.code === 11000) {
         next(new ConflictError(MESSAGE.ERROR.DUPLICATE));
       } else {
