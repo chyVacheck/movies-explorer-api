@@ -5,16 +5,12 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
-// * свои
-const { NotFound } = require('./utils/NotFound');
 // ? роутеры
-const routerAuth = require('./routes/auth');
 const router = require('./routes/index');
-
 // ? middlewares
 const { handleErrors } = require('./middlewares/HandleErrors');
 const { limiter } = require('./middlewares/Limiter');
-const auth = require('./middlewares/Auth');
+// const auth = require('./middlewares/Auth');
 const { Logger } = require('./middlewares/Logger');
 
 // const { DEFAULT_VALUES } = require('./utils/constants');
@@ -43,9 +39,7 @@ if (NODE_ENV === 'production') {
 }
 
 // * routes
-app.use(routerAuth); // ? регистрация/авторизация
-app.use(auth, router); // ? проверка на авторизацию и все роутеры
-app.use('*', NotFound); // ? выдаем 404 ошибку если нет такого слушателя
+app.use(router); // ? проверка на все роутеры
 
 // ? errors logger
 app.use(Logger.error);

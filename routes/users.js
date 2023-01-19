@@ -4,10 +4,10 @@ const { celebrate, Joi } = require('celebrate');
 const { users } = require('../controllers/users');
 
 // * возвращает текущего пользователя
-routerUsers.get('/me', users.getMe);
+routerUsers.get('users/me', users.getMe);
 
 // * обновляет профиль
-routerUsers.patch('/me', celebrate({
+routerUsers.patch('users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string(),
     email: Joi.string(),
