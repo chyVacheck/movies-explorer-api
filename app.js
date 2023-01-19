@@ -20,7 +20,7 @@ const { Logger } = require('./middlewares/Logger');
 // const { DEFAULT_VALUES } = require('./utils/constants');
 
 // ? объявление порт`а
-const { PORT = 3001, NODE_ENV, MONGO_URL } = process.env;
+const { PORT = 3001, NODE_ENV, MONGO_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
 
 const app = express();
 
