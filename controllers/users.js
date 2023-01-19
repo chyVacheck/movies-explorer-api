@@ -15,14 +15,6 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 // * кастомные ошибки
 const { BadRequestError, ConflictError } = require('../errors/AllErrors');
 
-function setInfoError(err, next) {
-  if ((err.name === 'ValidationError') || (err.name === 'CastError')) {
-    next(new BadRequestError(MESSAGE.ERROR.BAD_REQUEST));
-  } else {
-    next(err);
-  }
-}
-
 class Users { }
 const users = new Users();
 
@@ -51,7 +43,7 @@ users.createOne = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Incorrect data entered'));
       } else if (err.code === 11000) {
-        next(new ConflictError(`You can not use this mail ${email} for registration, try another email`));
+        next(new ConflictError(MESSAGE.ERROR.DUPLICATE));
       } else {
         next(err);
       }
@@ -70,16 +62,15 @@ users.login = (req, res, next) => {
         sameSite: NODE_ENV === 'production' ? true : 'none',
         secure: NODE_ENV === 'production',
       });
-      res.send({ message: 'User is authorized!' });
+      res.send({ message: MESSAGE.INFO.LOGIN });
     })
     .catch((err) => {
       next(err);
     });
 };
 
-users.signOut = (req, res, next) => {
-  res.clearCookie('jwt').send({ message: MESSAGE.INFO.LOGOUT })
-    .catch(next);
+users.signOut = (req, res) => {
+  res.clearCookie('jwt').send({ message: MESSAGE.INFO.LOGOUT });
 };
 
 // * GET
@@ -105,11 +96,19 @@ users.setUserInfo = (req, res, next) => {
     .then((newUser) => {
       res.status(STATUS.INFO.OK)
         .send({
-          message: `INFO ${MESSAGE.INFO.PATCH}`,
+          message: MESSAGE.INFO.PATCH,
           data: newUser,
         });
     })
-    .catch((err) => setInfoError(err, next));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Incorrect data entered'));
+      } else if (err.code === 11000) {
+        next(new ConflictError(MESSAGE.ERROR.DUPLICATE));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports = { users };
