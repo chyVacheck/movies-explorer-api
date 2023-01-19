@@ -11,13 +11,15 @@ const MESSAGE = {
     EMAIL: 'Email is incorrect',
     URL: 'URL validation error',
     EMAIL_OR_PASS: 'Wrong email or password',
+    DUPLICATE: 'You can not use these parameters, try other ones',
   },
   INFO: {
     CREATED: 'CREATED',
     DELETE: 'DELETED',
     PUT: 'PUTED',
-    PATCH: 'PATCHED',
+    PATCH: 'INFO PATCHED',
     LOGOUT: 'YOU LOGOUT',
+    LOGIN: 'YOU LOGIN',
   },
 };
 const STATUS = {
