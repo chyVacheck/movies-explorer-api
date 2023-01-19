@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 const { MESSAGE, STATUS } = require('../utils/constants');
 
-module.exports.handleErrors = ((err, req, res, next) => {
+module.exports.handleErrors = ((err, req, res) => {
   const { statusCode = STATUS.ERROR.SERVER, message } = err;
 
   res
