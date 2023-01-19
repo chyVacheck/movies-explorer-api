@@ -8,7 +8,7 @@ class Movie { }
 const movie = new Movie();
 // ?  возвращает все сохранённые текущим пользователем фильмы
 movie.getMovies = (req, res, next) => {
-  modelsMovie.find({ owner: req.user }).sort({ createdAt: -1 })
+  modelsMovie.find({ owner: req.user })
     .populate(['owner'])
     .then((movies) => res.send(movies))
     .catch(next);
@@ -18,28 +18,10 @@ movie.getMovies = (req, res, next) => {
 // ? country, director, duration, year, description, image,
 // ? trailer, nameRU, nameEN и thumbnail, movieId
 movie.createMovie = (req, res, next) => {
-  const {
-    country, director, duration, year,
-    description, image, thumbnail, trailerLink, nameRU, nameEN, movieId,
-  } = req.body;
-
-  modelsMovie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    thumbnail,
-    trailerLink,
-    nameRU,
-    nameEN,
-    movieId,
-    owner: req.user,
-  })
+  modelsMovie.create({ ...req.body, owner: req.user._id })
     .then((newMovie) => res
       .status(STATUS.INFO.CREATED)
-      .send({ message: `Movie ${MESSAGE.INFO.CREATED}`, data: newMovie }))
+      .send({ message: `${MESSAGE.INFO.CREATED}`, data: newMovie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(MESSAGE.ERROR.BAD_REQUEST));
