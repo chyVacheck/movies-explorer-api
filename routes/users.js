@@ -1,17 +1,17 @@
 const routerUsers = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
 // ? из контроллеров
 const { users } = require('../controllers/users');
+// ? валидация
+const { Validator } = require('../middlewares/Validation');
 
 // * возвращает текущего пользователя
 routerUsers.get('/me', users.getMe);
 
 // * обновляет профиль
-routerUsers.patch('/me', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-  }),
-}), users.setUserInfo);
+routerUsers.patch(
+  '/me',
+  Validator.updateUser,
+  users.setUserInfo,
+);
 
 module.exports = routerUsers;
