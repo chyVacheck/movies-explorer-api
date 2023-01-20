@@ -10,9 +10,13 @@ const MESSAGE = {
     NOT_AUTHORIZED: 'User is not authorized',
     SERVER: 'SERVER ERROR',
     EMAIL: 'Email is incorrect',
-    URL: 'URL validation error',
+    URL: 'URL validation error', // todo разобраться где используется и перенести
     EMAIL_OR_PASS: 'Wrong email or password',
     DUPLICATE: 'You can not use these parameters, try other ones',
+    VALIDATION: {
+      EMAIL: 'Email validation error',
+      URL: 'URL validation error',
+    },
   },
   INFO: {
     CREATED: 'CREATED',
@@ -98,7 +102,7 @@ const isThisURL = (value) => {
   if (result) {
     return value;
   }
-  throw new Error(MESSAGE.ERROR.URL);
+  throw new Error(MESSAGE.ERROR.VALIDATION.URL);
 };
 
 // * экспорт всех констант
