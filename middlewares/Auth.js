@@ -3,8 +3,10 @@ const NotAuthorized = require('../errors/NotAuthorized');
 // ? из констант
 const { MESSAGE } = require('../utils/constants');
 
+// ! из default.json
+const config = require('../config/default.json');
 // ! из env
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET = config.jwt_secret } = process.env;
 
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -17,7 +19,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+    payload = jwt.verify(token, JWT_SECRET);
   } catch (error) {
     throw new NotAuthorized(MESSAGE.ERROR.NOT_AUTHORIZED);
   }
