@@ -1,0 +1,7 @@
+{
+  "adressdb": "mongodb://127.0.0.1:27017/bitfilmsdb",
+  "port": "3001",
+  "jwt_secret": "dev-secret",
+  "cors": false,
+  "default_url": "api"
+}
