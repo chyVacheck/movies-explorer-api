@@ -9,8 +9,10 @@ const { MESSAGE, STATUS } = require('../utils/constants');
 // * errors
 const NotFoundError = require('../errors/NotFoundError');
 
+// ! из default.json
+const config = require('../config/default.json');
 // * jwt
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET = config.jwt_secret } = process.env;
 
 // * кастомные ошибки
 const { BadRequestError, ConflictError } = require('../errors/AllErrors');
@@ -55,7 +57,7 @@ users.login = (req, res, next) => {
   const { email, password } = req.body;
   return user.findUserByCredentials(email, password)
     .then((data) => {
-      const token = jwt.sign({ _id: data._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+      const token = jwt.sign({ _id: data._id }, JWT_SECRET);
       res.cookie('jwt', token, {
         expires: new Date(Date.now() + 12 * 3600000),
         httpOnly: true,
