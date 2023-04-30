@@ -14,10 +14,6 @@ routerAuth.post(
 );
 
 // * авторизация
-routerAuth.post(
-  '/signin',
-  Validator.signin,
-  users.login,
-);
+routerAuth.post('/signin', Validator.signin, users.login);
 
 module.exports = routerAuth;

@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
-const NotAuthorized = require('../errors/NotAuthorized');
+const {
+  NotAuthorized,
+  NotFoundError,
+  BadRequestError,
+} = require('../errors/AllErrors');
 // ? из констант
 const { MESSAGE, VALID_VALUES } = require('../utils/constants');
 
@@ -32,18 +36,19 @@ const userSchema = new mongoose.Schema({
 });
 
 function findUserByCredentials(email, password) {
-  return this.findOne({ email }).select('+password')
+  return this.findOne({ email })
+    .select('+password')
+    .orFail(() => new NotFoundError(MESSAGE.ERROR.NOT_FOUND))
     .then((user) => {
       if (!user) {
         throw new NotAuthorized(MESSAGE.ERROR.EMAIL_OR_PASS);
       }
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            throw new NotAuthorized(MESSAGE.ERROR.EMAIL_OR_PASS);
-          }
-          return user;
-        });
+      return bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          throw new BadRequestError(MESSAGE.ERROR.EMAIL_OR_PASS);
+        }
+        return user;
+      });
     });
 }
 

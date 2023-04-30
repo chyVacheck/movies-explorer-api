@@ -9,17 +9,9 @@ const { Validator } = require('../middlewares/Validation');
 routerMovie.get('/', movie.getMovies);
 
 // * создаёт фильм
-routerMovie.post(
-  '/',
-  Validator.createMovie,
-  movie.createMovie,
-);
+routerMovie.post('/', Validator.createMovie, movie.createMovie);
 
 // * удаляет карточку по идентификатору
-routerMovie.delete(
-  '/:movieId',
-  Validator.deleteMovie,
-  movie.deleteMovie,
-);
+routerMovie.delete('/:movieId', Validator.deleteMovie, movie.deleteMovie);
 
 module.exports = routerMovie;

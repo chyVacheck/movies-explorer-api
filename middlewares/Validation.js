@@ -2,14 +2,12 @@ const { Joi, celebrate } = require('celebrate');
 const validator = require('validator');
 
 // ? ошибки
-const {
-  BadRequestError,
-} = require('../errors/AllErrors');
+const { BadRequestError } = require('../errors/AllErrors');
 
 // ? из констант
 const { MESSAGE, VALID_VALUES } = require('../utils/constants');
 
-class Validator { }
+class Validator {}
 
 Validator.isItUrl = (value) => {
   const result = validator.isURL(value);
@@ -21,12 +19,13 @@ Validator.isItUrl = (value) => {
 
 Validator.updateUser = celebrate({
   body: Joi.object().keys({
-    name:
-      Joi.string()
-        .required()
-        .min(VALID_VALUES.TEXT.LENGTH.MIN)
-        .max(VALID_VALUES.TEXT.LENGTH.MAX),
-    email: Joi.string().required().email({ tlds: { allow: false } }),
+    name: Joi.string()
+      .required()
+      .min(VALID_VALUES.TEXT.LENGTH.MIN)
+      .max(VALID_VALUES.TEXT.LENGTH.MAX),
+    email: Joi.string()
+      .required()
+      .email({ tlds: { allow: false } }),
   }),
 });
 
@@ -54,19 +53,23 @@ Validator.deleteMovie = celebrate({
 
 Validator.signup = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email().pattern(/^\S+@\S+\.\S+$/),
-    name:
-      Joi.string()
-        .required()
-        .min(VALID_VALUES.TEXT.LENGTH.MIN)
-        .max(VALID_VALUES.TEXT.LENGTH.MAX),
+    email: Joi.string()
+      .required()
+      .email()
+      .pattern(/^\S+@\S+\.\S+$/),
+    name: Joi.string()
+      .required()
+      .min(VALID_VALUES.TEXT.LENGTH.MIN)
+      .max(VALID_VALUES.TEXT.LENGTH.MAX),
     password: Joi.string().required(),
   }),
 });
 
 Validator.signin = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email({ tlds: { allow: false } }),
+    email: Joi.string()
+      .required()
+      .email({ tlds: { allow: false } }),
     password: Joi.string().required(),
   }),
 });

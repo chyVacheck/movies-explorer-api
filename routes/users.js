@@ -8,10 +8,6 @@ const { Validator } = require('../middlewares/Validation');
 routerUsers.get('/me', users.getMe);
 
 // * обновляет профиль
-routerUsers.patch(
-  '/me',
-  Validator.updateUser,
-  users.setUserInfo,
-);
+routerUsers.patch('/me', Validator.updateUser, users.setUserInfo);
 
 module.exports = routerUsers;
