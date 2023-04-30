@@ -17,20 +17,23 @@ const { NODE_ENV, JWT_SECRET = config.jwt_secret } = process.env;
 // * кастомные ошибки
 const { BadRequestError, ConflictError } = require('../errors/AllErrors');
 
-class Users { }
+class Users {}
 const users = new Users();
 
 // * POST
 // ? создает пользователя
 users.createOne = (req, res, next) => {
-  const {
-    name, email, password,
-  } = req.body;
+  const { name, email, password } = req.body;
 
-  bcrypt.hash(password, 10)
-    .then((hash) => user.create({
-      name, email, password: hash,
-    }))
+  bcrypt
+    .hash(password, 10)
+    .then((hash) =>
+      user.create({
+        name,
+        email,
+        password: hash,
+      }),
+    )
     .then((data) => {
       res.status(STATUS.INFO.CREATED).send({
         message: MESSAGE.INFO.CREATED,
@@ -55,15 +58,17 @@ users.createOne = (req, res, next) => {
 // ? авторизоация пользователя
 users.login = (req, res, next) => {
   const { email, password } = req.body;
-  return user.findUserByCredentials(email, password)
+  return user
+    .findUserByCredentials(email, password)
     .then((data) => {
       const token = jwt.sign({ _id: data._id }, JWT_SECRET);
       res.cookie('jwt', token, {
         expires: new Date(Date.now() + 12 * 3600000),
         httpOnly: true,
-        sameSite: NODE_ENV === 'production' ? true : 'none',
-        secure: NODE_ENV === 'production',
+        sameSite: NODE_ENV === 'production' ? true : 'None',
+        secure: true,
       });
+      console.log(req.cookies);
       res.send({ message: MESSAGE.INFO.LOGIN });
     })
     .catch((err) => {
@@ -78,7 +83,8 @@ users.signOut = (req, res) => {
 // * GET
 // ? возвращает текущего пользователя по _id
 users.getMe = (req, res, next) => {
-  user.findById(req.user._id)
+  user
+    .findById(req.user._id)
     .orFail(() => new NotFoundError(MESSAGE.ERROR.NOT_FOUND))
     .then((userMe) => res.send({ data: userMe }))
     .catch(next);
@@ -89,18 +95,18 @@ users.getMe = (req, res, next) => {
 users.setUserInfo = (req, res, next) => {
   const { name, email } = req.body;
 
-  user.findByIdAndUpdate(
-    req.user._id,
-    { name, email },
-    { new: true, runValidators: true },
-  )
+  user
+    .findByIdAndUpdate(
+      req.user._id,
+      { name, email },
+      { new: true, runValidators: true },
+    )
     .orFail(() => new NotFoundError(MESSAGE.ERROR.NOT_FOUND))
     .then((newUser) => {
-      res.status(STATUS.INFO.OK)
-        .send({
-          message: MESSAGE.INFO.PATCH,
-          data: newUser,
-        });
+      res.status(STATUS.INFO.OK).send({
+        message: MESSAGE.INFO.PATCH,
+        data: newUser,
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

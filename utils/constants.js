@@ -53,7 +53,8 @@ const Limits = {
     forRequest: 100,
   },
   message: {
-    forCreateNewAccount: 'Too many accounts created from this IP, please try again after one hour',
+    forCreateNewAccount:
+      'Too many accounts created from this IP, please try again after one hour',
   },
 };
 

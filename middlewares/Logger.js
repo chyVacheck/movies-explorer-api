@@ -11,18 +11,21 @@ const Logger = {
   // * создадим логгер запросов
   request: expressWinston.logger({
     transports: [
-      new winston.transports.File({ filename: logFileNames.forLog + extension }),
+      new winston.transports.File({
+        filename: logFileNames.forLog + extension,
+      }),
     ],
     format: winston.format.json(),
   }),
   // * логгер ошибок
   error: expressWinston.errorLogger({
     transports: [
-      new winston.transports.File({ filename: logFileNames.forError + extension }),
+      new winston.transports.File({
+        filename: logFileNames.forError + extension,
+      }),
     ],
     format: winston.format.json(),
   }),
-
 };
 
 module.exports = { Logger };

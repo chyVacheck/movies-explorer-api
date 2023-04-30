@@ -27,7 +27,6 @@ const {
 const app = express();
 
 // * CORS
-// todo сейчас в config.json стоит false
 if (CORS) {
   console.log('Cors turn on');
   app.use(cors(DEFAULT_VALUES.CORS_OPTIONS));
@@ -47,6 +46,7 @@ app.use(Logger.request);
 
 // включаем лимиты запросов только в продакшине
 if (NODE_ENV === 'production') {
+  console.log('production');
   app.use(limiter.simpleRequest);
 }
 
