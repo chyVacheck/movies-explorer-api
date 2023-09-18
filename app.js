@@ -7,7 +7,7 @@ const cors = require('cors');
 const { errors } = require('celebrate');
 // ! из default.json
 const config = require('./config/default.json');
-// ? роутеры
+// ? routers
 const router = require('./routes/index');
 // ? middlewares
 const { handleErrors } = require('./middlewares/HandleErrors');
@@ -65,7 +65,7 @@ async function start() {
     mongoose.set('strictQuery', true);
     // ? подключаемся к серверу mongo
     await mongoose.connect(DB_ADRESS);
-    console.log('Сonnected to MongoDB');
+    console.log('Connecting to MongoDB');
     app.listen(PORT, () => {
       console.log(`App listening on port ${PORT}`);
     });
