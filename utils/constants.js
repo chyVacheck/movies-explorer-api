@@ -69,8 +69,7 @@ const DEFAULT_VALUES = {
   CORS_OPTIONS: {
     origin: [
       'http://localhost:3000',
-      'http://movies-front.nomoredomains.rocks',
-      'https://movies-front.nomoredomains.rocks',
+      'https://chyvacheck-movies-explorer.netlify.app',
     ],
     optionsSuccessStatus: 200,
     credentials: true,
