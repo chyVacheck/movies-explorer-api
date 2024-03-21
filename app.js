@@ -21,7 +21,7 @@ const {
   PORT = config.port,
   CORS = config.cors,
   NODE_ENV,
-  DB_ADRESS = config.adressdb,
+  DB_ADDRESS = config.addressDb,
 } = process.env;
 
 const app = express();
@@ -64,7 +64,7 @@ async function start() {
   try {
     mongoose.set('strictQuery', true);
     // ? подключаемся к серверу mongo
-    await mongoose.connect(DB_ADRESS);
+    await mongoose.connect(DB_ADDRESS);
     console.log('Connecting to MongoDB');
     app.listen(PORT, () => {
       console.log(`App listening on port ${PORT}`);
