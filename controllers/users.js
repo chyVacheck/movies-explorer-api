@@ -65,7 +65,7 @@ users.login = (req, res, next) => {
       res.cookie('jwt', token, {
         expires: new Date(Date.now() + 12 * 3600000),
         httpOnly: true,
-        sameSite: NODE_ENV === 'production' ? true : 'None',
+        sameSite: 'None',
         secure: true,
       });
       console.log(req.cookies);
